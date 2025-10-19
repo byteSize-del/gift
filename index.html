@@ -707,6 +707,56 @@
 
         /* Responsive Design - Mobile First */
         @media (max-width: 768px) {
+            /* Disable heavy animations on mobile */
+            body {
+                animation: none;
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            }
+
+            .scene {
+                animation: none;
+                filter: drop-shadow(0 20px 30px rgba(0, 0, 0, 0.4));
+            }
+
+            .gift-box {
+                animation: none;
+            }
+
+            .gift-box::before {
+                animation: none;
+            }
+
+            .box::after {
+                animation: none;
+            }
+
+            .lid {
+                animation: none;
+            }
+
+            .bow {
+                animation: none;
+            }
+
+            .bow-knot {
+                animation: none;
+            }
+
+            .bow-loop-left,
+            .bow-loop-right {
+                animation: none;
+            }
+
+            .ribbon-v,
+            .ribbon-h {
+                animation: none;
+                background: linear-gradient(135deg, #ffd700 0%, #ffed4e 50%, #ffd700 100%);
+            }
+
+            .prompt {
+                animation: none;
+            }
+
             .message {
                 width: 92%;
                 padding: 25px 30px;
@@ -891,9 +941,13 @@
         const giftLid = document.getElementById('giftLid');
         const body = document.body;
 
-        // Create floating particles background
+        // Detect if mobile device
+        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth < 768;
+
+        // Create floating particles background (reduced for mobile)
         function createFloatingParticles() {
-            for (let i = 0; i < 30; i++) {
+            const count = isMobile ? 10 : 30;
+            for (let i = 0; i < count; i++) {
                 const particle = document.createElement('div');
                 particle.classList.add('particle');
                 particle.style.width = Math.random() * 8 + 3 + 'px';
@@ -906,9 +960,10 @@
             }
         }
 
-        // Create twinkling stars
+        // Create twinkling stars (reduced for mobile)
         function createStars() {
-            for (let i = 0; i < 50; i++) {
+            const count = isMobile ? 15 : 50;
+            for (let i = 0; i < count; i++) {
                 const star = document.createElement('div');
                 star.classList.add('star');
                 star.style.left = Math.random() * 100 + '%';
@@ -919,10 +974,11 @@
             }
         }
 
-        // Music notes animation
+        // Music notes animation (reduced for mobile)
         function createMusicNotes(x, y) {
+            if (isMobile) return; // Skip on mobile for performance
             const notes = ['♪', '♫', '♬', '♩'];
-            for (let i = 0; i < 8; i++) {
+            for (let i = 0; i < 4; i++) {
                 const note = document.createElement('div');
                 note.classList.add('music-note');
                 note.textContent = notes[Math.floor(Math.random() * notes.length)];
@@ -937,10 +993,11 @@
             }
         }
 
-        // Balloon animation
+        // Balloon animation (reduced for mobile)
         function createBalloons(x, y) {
             const balloons = ['🎈', '🎉', '🎊', '✨', '🌟'];
-            for (let i = 0; i < 5; i++) {
+            const count = isMobile ? 3 : 5;
+            for (let i = 0; i < count; i++) {
                 const balloon = document.createElement('div');
                 balloon.classList.add('balloon');
                 balloon.textContent = balloons[Math.floor(Math.random() * balloons.length)];
@@ -954,10 +1011,11 @@
             }
         }
 
-        // Hearts animation
+        // Hearts animation (reduced for mobile)
         function createHearts(x, y) {
             const hearts = ['❤️', '💖', '💕', '💗', '💝'];
-            for (let i = 0; i < 6; i++) {
+            const count = isMobile ? 3 : 6;
+            for (let i = 0; i < count; i++) {
                 const heart = document.createElement('div');
                 heart.classList.add('heart');
                 heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
@@ -970,10 +1028,10 @@
             }
         }
 
-        // Fireworks effect
+        // Fireworks effect (reduced for mobile)
         function createFirework(x, y) {
             const colors = ['#ff6b6b', '#feca57', '#48dbfb', '#ff9ff3', '#7bdcb5'];
-            const particles = 30;
+            const particles = isMobile ? 15 : 30;
             
             for (let i = 0; i < particles; i++) {
                 const firework = document.createElement('div');
@@ -1024,12 +1082,13 @@
             setTimeout(() => ripple.remove(), 1000);
         }
 
-        // Enhanced confetti with stars and multiple shapes
+        // Enhanced confetti with stars and multiple shapes (reduced for mobile)
         function createConfetti(count) {
+            const actualCount = isMobile ? Math.min(count, 40) : count;
             const colors = ['#feca57', '#ff6b6b', '#a6c1ee', '#f8cdda', '#7bdcb5', '#ff99e6', '#ffd700', '#48dbfb'];
             const shapes = ['circle', 'square', 'star'];
 
-            for (let i = 0; i < count; i++) {
+            for (let i = 0; i < actualCount; i++) {
                 const confetti = document.createElement('div');
                 confetti.classList.add('confetti');
 
@@ -1054,9 +1113,10 @@
             }
         }
 
-        // Sparkle effect
+        // Sparkle effect (reduced for mobile)
         function createSparkles(x, y) {
-            for (let i = 0; i < 10; i++) {
+            const count = isMobile ? 5 : 10;
+            for (let i = 0; i < count; i++) {
                 const sparkle = document.createElement('div');
                 sparkle.style.position = 'absolute';
                 sparkle.style.left = x + 'px';
@@ -1069,7 +1129,7 @@
                 sparkle.style.zIndex = '100';
                 sparkle.style.boxShadow = '0 0 10px #fff';
 
-                const angle = (Math.PI * 2 * i) / 10;
+                const angle = (Math.PI * 2 * i) / count;
                 const velocity = Math.random() * 50 + 30;
                 const vx = Math.cos(angle) * velocity;
                 const vy = Math.sin(angle) * velocity;
@@ -1119,15 +1179,17 @@
         createStars();
         setRandomGiftColors();
 
-        // Add hover effect for gift box
-        giftBox.addEventListener('mouseenter', () => {
-            const rect = giftBox.getBoundingClientRect();
-            const x = rect.left + rect.width / 2;
-            const y = rect.top + rect.height / 2;
-            createMusicNotes(x, y - 50);
-        });
+        // Add hover effect for gift box (desktop only)
+        if (!isMobile) {
+            giftBox.addEventListener('mouseenter', () => {
+                const rect = giftBox.getBoundingClientRect();
+                const x = rect.left + rect.width / 2;
+                const y = rect.top + rect.height / 2;
+                createMusicNotes(x, y - 50);
+            });
+        }
 
-        // Click handler with all effects
+        // Click handler with optimized effects
         giftBox.addEventListener('click', (e) => {
             const rect = giftBox.getBoundingClientRect();
             const x = rect.left + rect.width / 2;
@@ -1138,18 +1200,23 @@
             // Create ripple at click point
             createRipple(x, y);
             
-            // Launch all celebratory effects
-            createConfetti(100);
+            // Launch celebratory effects (reduced on mobile)
+            createConfetti(isMobile ? 40 : 100);
             createSparkles(x, y);
-            createFirework(x, y - 100);
             createBalloons(x, y);
             createHearts(x, y);
             createMusicNotes(x, y);
             
-            // Additional fireworks with delay
-            setTimeout(() => createFirework(x - 100, y - 150), 500);
-            setTimeout(() => createFirework(x + 100, y - 150), 800);
-            setTimeout(() => createFirework(x, y - 200), 1200);
+            // Fireworks (reduced on mobile)
+            if (isMobile) {
+                createFirework(x, y - 100);
+                setTimeout(() => createFirework(x, y - 150), 800);
+            } else {
+                createFirework(x, y - 100);
+                setTimeout(() => createFirework(x - 100, y - 150), 500);
+                setTimeout(() => createFirework(x + 100, y - 150), 800);
+                setTimeout(() => createFirework(x, y - 200), 1200);
+            }
 
             // Stagger text animation
             const paragraphs = document.querySelectorAll('.message p');
@@ -1157,19 +1224,24 @@
                 p.style.animationDelay = `${index * 0.2}s`;
             });
             
-            // Continuous celebration effects
-            let celebrationInterval = setInterval(() => {
-                createConfetti(20);
-                const randomX = Math.random() * window.innerWidth;
-                const randomY = Math.random() * 200;
-                createFirework(randomX, randomY);
-            }, 2000);
+            // Continuous celebration effects (reduced on mobile)
+            const interval = isMobile ? 4000 : 2000;
+            const duration = isMobile ? 6000 : 10000;
+            const confettiCount = isMobile ? 10 : 20;
             
-            // Stop after 10 seconds
-            setTimeout(() => clearInterval(celebrationInterval), 10000);
+            let celebrationInterval = setInterval(() => {
+                createConfetti(confettiCount);
+                if (!isMobile) {
+                    const randomX = Math.random() * window.innerWidth;
+                    const randomY = Math.random() * 200;
+                    createFirework(randomX, randomY);
+                }
+            }, interval);
+            
+            setTimeout(() => clearInterval(celebrationInterval), duration);
         });
 
-        // Touch event listener for mobile with full effects
+        // Touch event listener for mobile with optimized effects
         giftBox.addEventListener('touchstart', (e) => {
             e.preventDefault();
             const touch = e.touches[0];
@@ -1179,30 +1251,26 @@
             scene.classList.add('open');
             
             createRipple(x, y);
-            createConfetti(100);
+            createConfetti(40);
             createSparkles(x, y);
-            createFirework(x, y - 100);
             createBalloons(x, y);
             createHearts(x, y);
-            createMusicNotes(x, y);
             
-            setTimeout(() => createFirework(x - 100, y - 150), 500);
-            setTimeout(() => createFirework(x + 100, y - 150), 800);
-            setTimeout(() => createFirework(x, y - 200), 1200);
+            // Only 2 fireworks on mobile
+            createFirework(x, y - 100);
+            setTimeout(() => createFirework(x, y - 150), 800);
 
             const paragraphs = document.querySelectorAll('.message p');
             paragraphs.forEach((p, index) => {
                 p.style.animationDelay = `${index * 0.2}s`;
             });
             
+            // Reduced celebration on mobile
             let celebrationInterval = setInterval(() => {
-                createConfetti(20);
-                const randomX = Math.random() * window.innerWidth;
-                const randomY = Math.random() * 200;
-                createFirework(randomX, randomY);
-            }, 2000);
+                createConfetti(10);
+            }, 4000);
             
-            setTimeout(() => clearInterval(celebrationInterval), 10000);
+            setTimeout(() => clearInterval(celebrationInterval), 6000);
         });
     </script>
 
